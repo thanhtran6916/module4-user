@@ -1,5 +1,8 @@
 package com.user.model;
 
+
+import com.user.exception.DuplicateEmail;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -25,7 +28,8 @@ public class User {
     @Min(18)
     private int age;
 
-    @Email
+    @DuplicateEmail
+    @NotEmpty
     private String email;
 
     public User() {

@@ -1,5 +1,6 @@
 package com.user.controller;
 
+import com.user.exception.DuplicateEmail;
 import com.user.model.User;
 import com.user.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +13,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private HttpSession httpSession;
 
     @GetMapping
     public String showList(Model model) {
@@ -33,6 +39,7 @@ public class UserController {
         return "user/create";
     }
 
+    @DuplicateEmail
     @PostMapping("/create")
     public String createUser(@Validated @ModelAttribute("user") User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
